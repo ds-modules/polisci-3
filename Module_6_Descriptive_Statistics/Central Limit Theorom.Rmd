@@ -1,0 +1,36 @@
+---
+title: 'Week 6 Lecture Notebook 2: Distributions and Statistical Inference'
+output: html_document
+runtime: shiny
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+> 
+## Central Limit Theorem 
+What we want to do now it take repeated samples. We could scroll up and run this code over and over a very large number of times, being sure to write down the mean value on the dice for each sample. But that would be inefficient. Instead we are going to let R do it for us. The following code does it. YOU DO NOT NEED TO UNDERSTAND EXACTLY HOW THIS CODE WORKS.
+
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+```
+
+
+```{r correlate, echo = FALSE}
+mean_distribution = function(Sample_size){                 # Function to record mean values of samples                
+    average_values=c()                                     # Vector to hold averagae values
+    for (i in 1:1000){                                     # Take 1000 samples                                     
+        faces=c(1,2,3,4,5,6)
+        outcomes=(sample(faces, replace=TRUE, Sample_size))
+        average_values=append(average_values, mean(outcomes)) # Compute average value for sample i
+    }
+    hist(average_values, freq=FALSE,xlim = c(1,6)) # Draw distribution of mean values
+}
+inputPanel(
+     numericInput("num", label = "Sample size", value = 30),
+)
+renderPlot(mean_distribution(input$num))
+```
+
+
