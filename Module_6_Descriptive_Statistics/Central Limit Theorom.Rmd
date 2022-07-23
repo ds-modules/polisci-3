@@ -25,10 +25,13 @@ mean_distribution = function(Sample_size){                 # Function to record 
         outcomes=(sample(faces, replace=TRUE, Sample_size))
         average_values=append(average_values, mean(outcomes)) # Compute average value for sample i
     }
-    hist(average_values, freq=FALSE,xlim = c(1,6)) # Draw distribution of mean values
+    hist(average_values, freq=FALSE,xlim = c(1,6), ylim = c(0,2.5),
+         xlab = "mean_dice_roll_outcomes", main = "Distribution of mean dice roll number") 
+    # Draw distribution of mean values
 }
 inputPanel(
-     numericInput("num", label = "Sample size", value = 30),
+     sliderInput("num", label = "Sample Size: ",
+              min = 1, max = 100, value = 15, step = 1),
 )
 renderPlot(mean_distribution(input$num))
 ```
