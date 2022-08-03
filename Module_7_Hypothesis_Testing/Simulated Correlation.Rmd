@@ -1,15 +1,12 @@
 ---
-title: 'Week 7: Hypothesis Testing'
+title: 'Week 7 Lecture Notebook: Visualizing Different Correlation Coefficient Magnitudes'
 output: html_document
 runtime: shiny
 editor_options: 
   markdown: 
     wrap: 72
 ---
-> In this notebook we will learn how to evaluate hypotheses using R. 
-> We begin with tabular analysis (2 categorical variables), proceed to difference in means (1 categorical variable, 1 continuous variable), and end with the correlation coefficient (2 continuous variables).
-## Interactive Visual
-The code in the following cell generates a distribution based on its correlation with the random uniform distirubtion x. This is meant to visualize what the effect of increasing or decreasing the correlation has on the visual relationship between variables. YOU DO NOT NEED TO UNDERSTAND HOW THIS CELL WORKS.  
+
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
@@ -22,7 +19,7 @@ simcor = function (correlation, n = 50, min = 0, maxi = 1, ymean = 0, ysd = 1) {
     y = rnorm(n) 
     z = correlation * scale(x)[,1] + sqrt(1 - correlation^2) * scale(resid(lm(y ~ x)))[,1] 
     y_new = ymean + ysd * z 
-    plot(x,y_new, ylab = "Y values", xlab = "X values", main = "Correlation Coefficient Disitribution")
+    plot(x,y_new, ylab = "Y values", xlab = "X values", main = "Scatterplot of X and Y")
 }
 inputPanel(
     sliderInput("corr", label = "Correlation Coefficient:",
