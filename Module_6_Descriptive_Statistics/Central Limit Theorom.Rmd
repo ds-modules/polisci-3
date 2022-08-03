@@ -1,15 +1,11 @@
 ---
-title: 'Week 6 Lecture Notebook 2: Distributions and Statistical Inference'
+title: 'Week 6 Lecture Notebook 2: Visualizing How the Distribution of Sample Means Changes in Response to Changes in Sample Size'
 output: html_document
 runtime: shiny
 editor_options: 
   markdown: 
     wrap: 72
 ---
-> 
-## Central Limit Theorem 
-What we want to do now it take repeated samples. We could scroll up and run this code over and over a very large number of times, being sure to write down the mean value on the dice for each sample. But that would be inefficient. Instead we are going to let R do it for us. The following code does it. YOU DO NOT NEED TO UNDERSTAND EXACTLY HOW THIS CODE WORKS.
-
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
