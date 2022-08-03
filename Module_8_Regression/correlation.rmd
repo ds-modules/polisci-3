@@ -1,32 +1,11 @@
 ---
-title: 'Week 8: Ordinary Least Squares (OLS) Regression'
+title: 'Week 8 Lecture Notebook: Visualizing the Regression Line and Residuals'
 output: html_document
 runtime: shiny
 editor_options: 
   markdown: 
     wrap: 72
 ---
-
-> In this notebook we will learn to code bivariate and multivariate
-> regression and interpret the results.
-
-## OLS (bivariate) regression
-
-Ordinary Least Squares (OLS) regression is a method for assessing a
-linear relationship between an independent variable 𝑋 and a dependent
-(outcome) variable $Y$. Our equation for the regression model looks like
-this: \$\$Y_i = \hat{\alpha} + \\hat{\\beta} X_i + \\hat{u}\_{i}\$\$Here
-$(X_i, Y_i)$ represent a sample data point. (There are $n$ values of 𝑖,
-where $n$ is the sample size.) 𝛼̂ and 𝛽̂ represent the Y-intercept and the
-slope of the regression line, respectively. $\hat{u}_i$ represents a
-sample residual (or error). We can see this visually by using a modified
-version of a function we used to understand correlations in model 7. The
-code below reproduces the figure we saw in the last module but also
-includes the regression line and a graphical representation of the
-residual for each point in the dataset. Note that the residual (error),
-the vertical distance between our data points and the regression line,
-is bigger for some data points than for others.
-
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 library(shiny)
@@ -41,7 +20,7 @@ simcor = function (correlation, n = 50, min = 0, maxi = 1, ymean = 0, ysd = 1) {
     y = rnorm(n) 
     z = correlation * scale(x)[,1] + sqrt(1 - correlation^2) * scale(resid(lm(y ~ x)))[,1] 
     y_new = ymean + ysd * z 
-    plot(x,y_new, ylab = "Y values", xlab = "X values", main = "Errors and Regression Line")
+    plot(x,y_new, ylab = "Y values", xlab = "X values", main = "Regression Line and Residuals")
     abline(lm(y_new~x))
     pre <- predict(lm(y_new~x))
     segments(x, y_new, x, pre, col="red") 
