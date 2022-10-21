@@ -1,0 +1,31 @@
+---
+title: 'Week 7 Lecture Notebook: Visualizing Different Correlation Coefficient Magnitudes'
+output: html_document
+runtime: shiny
+editor_options: 
+  markdown: 
+    wrap: 72
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(shiny)
+```
+```{r correlate, echo = FALSE}
+simcor = function (correlation, n = 50, min = 0, maxi = 1, ymean = 0, ysd = 1) {
+    x=runif(n = n, min = min, max = maxi)
+    ymean = ymean
+    ysd = ysd
+    y = rnorm(n) 
+    z = correlation * scale(x)[,1] + sqrt(1 - correlation^2) * scale(resid(lm(y ~ x)))[,1] 
+    y_new = ymean + ysd * z 
+    plot(x,y_new, ylab = "Y values", xlab = "X values", main = "Scatterplot of X and Y")
+}
+inputPanel(
+    sliderInput("corr", label = "Correlation Coefficient:",
+              min = -1, max = 1, value = .7, step = 0.05),
+    selectInput("n", label = "Number of Points:", 
+                choices = c(10, 25, 50, 100, 200), selected = 50),
+)
+renderPlot(simcor(input$corr, input$n))
+```

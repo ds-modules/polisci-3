@@ -1,0 +1,111 @@
+---
+title: "Untitled"
+output: html_document
+runtime: shiny
+---
+```{r}
+library(tidyverse)
+```
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+This R Markdown document is made interactive using Shiny. Unlike the more traditional workflow of creating static reports, you can now create documents that allow your readers to change the assumptions underlying your analysis and see the results immediately. 
+
+To learn more, see [Interactive Documents](http://rmarkdown.rstudio.com/authoring_shiny.html).
+
+## Inputs and Outputs
+
+You can embed Shiny inputs and outputs in your document. Outputs are automatically updated whenever inputs change.  This demonstrates how a standard R plot can be made interactive by wrapping it in the Shiny `renderPlot` function. The `selectInput` and `sliderInput` functions create the input widgets used to drive the plot.
+
+```{r eruptions, echo=FALSE}
+ui <- fluidPage(
+  actionButton("coop", "Cooperate"),
+  actionButton("defect", "Defect"), 
+  hr(),
+  plotOutput("plot")
+)
+
+server <- function(input, output){
+  v <- reactiveValues(data = NULL)
+
+  observeEvent(input$coop, {
+    v$data <- runif(100)
+  })
+
+  observeEvent(input$rnorm, {
+    v$data <- rnorm(100)
+  })  
+
+  output$table <- DT::renderDataTable(DT::datatable({
+    data <- # Add in output/round df
+    data
+  }))
+}
+
+shinyApp(ui, server)
+```
+
+## Embedded Application
+
+It's also possible to embed an entire Shiny application within an R Markdown document using the `shinyAppDir` function. This example embeds a Shiny application located in another directory:
+
+```{r tabsets, echo=FALSE}
+shinyAppDir(
+  system.file("examples/06_tabsets", package = "shiny"),
+  options = list(
+    width = "100%", height = 550
+  )
+)
+```
+
+Note the use of the `height` parameter to determine how much vertical space the embedded application should occupy.
+
+You can also use the `shinyApp` function to define an application inline rather then in an external directory.
+
+In all of R code chunks above the `echo = FALSE` attribute is used. This is to prevent the R code within the chunk from rendering in the document alongside the Shiny components.
+
+
+```{r}
+# Player payoff key is (Player 1, Player 2)
+
+prisoners_dilemma <- function(player_one_strat, player_two_strat){
+  if (player_one_strat == "Cooperate" & player_two_strat == "Cooperate") {
+    return(c(20,20))
+  }
+  else if (player_one_strat == "Cooperate" & player_two_strat =="Defect") {
+    return(c(0,30))
+  }
+  else if (player_one_strat=="Defect" & player_two_strat=="Cooperate"){
+    return(c(30,0))
+  }
+  else if (player_one_strat =="Defect" & player_two_strat=="Defect") {
+    return(c(10,10))
+  }
+}
+
+prisoners_dilemma("Cooperate","Cooperate")
+```
+
+```{r}
+
+run_prisoners_dilemma <- function(round_count) {
+  
+  df <- data.frame(Round=numeric(0), P1P=numeric(0), P2P=numeric(0))
+  colnames(df) <- c("Round Number","Player One Payoffs","Player Two Payoffs")
+  for (round in 1:round_count) {
+    
+    round_result<-prisoners_dilemma("Cooperate","Cooperate") # Need to update to not coop coop as soon as shiny is figured out
+    
+    df <- rbind(df, data.frame(Round=round, P1P=round_result[0], P2P=round_result[1])) 
+  }
+  
+  return(df)
+}
+
+run_prisoners_dilemma(10)
+```
+
+
+
