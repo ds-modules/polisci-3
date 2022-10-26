@@ -17,11 +17,11 @@ def run_prisoners_dilemma(player1, player2, output_df, summary_df):
     if (player_1_strat == "Cooperate") and (player_2_strat == "Cooperate"):
         output_df.loc[len(output_df.index)]=[3,3]
     elif (player_1_strat =="Cooperate") and (player_2_strat =="Defect"):
-        output_df.loc[len(output_df.index)]=[0,5]
+        output_df.loc[len(output_df.index)]=[1,4]
     elif (player_2_strat =="Cooperate") and (player_1_strat =="Defect"):
-        output_df.loc[len(output_df.index)]=[5,0]
+        output_df.loc[len(output_df.index)]=[4,1]
     else:
-        output_df.loc[len(output_df.index)]=[1,1]
+        output_df.loc[len(output_df.index)]=[2,2]
     summary_df.loc["Sum"]=[sum(output_df["Player 1 Payoff"]),sum(output_df["Player 2 Payoff"])]
     summary_df.loc["Mean"]=[np.mean(output_df["Player 1 Payoff"]),np.mean(output_df["Player 2 Payoff"])]
     
